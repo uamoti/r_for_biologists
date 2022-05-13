@@ -6,36 +6,32 @@ fruit <- c('Apple', 'Orange', 'Passion fruit', 'Banana')
 
 #Correct the following loops and functions to get an print output of each value in the fruit vector
 # prt 1
-for ( i in fruit){ 
+for (i in fruit) {
   print(i)
 }
 
 # prt 2
 for(var in 1:length(fruit)) {
-  print(var)
+  print(fruit[var])
 }
 
-
 # prt 3
-#skip over the value "Orange"
+# skip over the value "Orange"
 
 for(var in 1:length(fruit)) {
-  if (fruit[var] __ __ ){
-    __
-  }
+  if (fruit[var] == 'Orange' ) {next}
   print(fruit[var])
 }
 
 # prt 4
-#Complete the following function that take in input X and outputs the cube of X which is equal to Y
-Cube_It <- function(___){
-  ___ <- ___
-  print(paste0("The Cube of ", ___, " is ", ___ ))
+# Complete the following function that take in input X and outputs the cube of X which is equal to Y
+Cube_It <- function(x) {
+  x3 <- x ^ 3
+  print(paste0("The Cube of ", x, " is ", x3))
 }
 
 # now use function on the number 42
-____(___)
-
+Cube_It(42)
 
 ### Problem Two ###
 
@@ -55,22 +51,27 @@ num_grades
 # Save "student_grades" as a csv file.
 
 letter_grades <- c()
-for (___ in 1:___(num_grades)) {
+for (idx in 1:length(num_grades)) {
   
   # Get the current grade in the loop
-  grade <- ____[___]
+  grade <- num_grades[idx]
   
   # Convert grade from numeric to letter
   if (grade >= 90) {
-    letter_grades[___] <- "A"
-  } else if (___) {
-    ___
-  } ___ ... # Complete the rest of this code
-  
+    letter_grades[idx] <- "A"
+  } else if (grade >= 80) {
+    letter_grades[idx] <- "B"
+  } else if (grade >= 70) {
+      letter_grades[idx] <- "C"
+  } else if (grade >= 60) {
+      letter_grades[idx] <- "D"
+  } else {
+      letter_grades[idx] <- "E"
+  }  
 }
 
-student_grades <- ___(_______) # Compile into data.frame
-write.___(___) # Save student_grades as a csv file
+student_grades <- data.frame(student = students, score = num_grades, grade = letter_grades) # Compile into data.frame
+write.csv(student_grades, 'student_grades.csv') # Save student_grades as a csv file
 
 
 ### Challenge Problem ###
@@ -96,10 +97,11 @@ id2symbol
 #   2. The function must return the corresponding gene symbol      
 
 # Your code here #
-
+gene_id_converter = function(gene_id) {
+    return(id2symbol[id2symbol$Ensembl == gene_id, 'gene_symbol'])
+}
 # Test -- this should output "TP53"
 gene_id_converter(gene_id="ENSG00000141510")
-
 
 
 ### SUPER Challenge Problem ###
@@ -115,11 +117,13 @@ gene_id_converter(gene_id="ENSG00000141510")
 "gene_id_to_symbol.csv" 
 
 # Your code here #
+conversion = read.csv('gene_id_to_symbol.csv')
+gene_id_converter = function(gene_id) {
+    return(conversion[conversion$Ensembl == gene_id, 'gene_symbol'])
+}
 
 # Test -- this should output "BRCA1"
 gene_id_converter(gene_id="ENSG00000012048")
-
-
 
 ### ULTRA Challenge Problem ###
 
@@ -134,13 +138,18 @@ entrez_genes_from_collaborator
 # Requirement: Add a new argument, "type", which is used to specify whether the gene ID is "Entrez" or "Ensembl" 
 
 # Your code here #
-
+gene_id_converter = function(gene_id, type) {
+    if (type == 'Ensembl') {
+        return(conversion[conversion$Ensembl == gene_id, 'gene_symbol'])
+    } else {
+        return(conversion[conversion$Entrez == gene_id, 'gene_symbol'])
+    }
+}
 # Test 1 -- this should output "BRCA1"
 gene_id_converter(gene_id="ENSG00000012048", type = "Ensembl")
 
 # Test 2 -- this should output "ATM"
 gene_id_converter(gene_id=472, type = "Entrez")
-
 
 
 ### EXTREME Challenge Problem ###
@@ -153,6 +162,17 @@ gene_id_converter(gene_id=472, type = "Entrez")
 # The "type" argument should now accept the option "gene_symbol"
 
 # Your code here #
+gene_id_converter = function(gene, type) {
+    if (type == 'Ensembl') {
+        return(conversion[conversion$Ensembl == gene, 'gene_symbol'])
+    } else if (type == 'Entrez') {
+        return(conversion[conversion$Entrez == gene, 'gene_symbol'])
+    } else {
+        ens = conversion[conversion$gene_symbol == gene, 'Ensembl']
+        ent = conversion[conversion$gene_symbol == gene, 'Entrez']
+        return(c(ens, ent))
+    }
+}
 
 # Test 1 -- this should output "ENSG00000012048" and "672"
 gene_id_converter(gene = "BRCA1", type = "gene_symbol")
@@ -171,6 +191,21 @@ gene_id_converter(gene=472, type = "Entrez")
 # Problem: extend the gene_id_converter function that it only needs one argument: "gene"
 
 # Your code here #
+
+gene_id_converter = function(gene) {
+    
+    if (class(gene) == 'numeric') {
+        return(conversion[conversion$Entrez == gene, 'gene_symbol'])
+    } else {
+        if (startsWith(gene, 'ENS')) {
+            return(conversion[conversion$Ensembl == gene, 'gene_symbol'])
+        } else {
+            ens = conversion[conversion$gene_symbol == gene, 'Ensembl']
+            ent = conversion[conversion$gene_symbol == gene, 'Entrez']
+            return(c(ens, ent))
+        }
+    }
+}
 
 # Test 1 -- this should output "CDKN2A"
 gene_id_converter(gene = "ENSG00000147889")
@@ -192,6 +227,30 @@ gene_id_converter(gene = "CDKN2A")
 # Requirement: the function must return results as a list with the names as the original "genes"
 
 # Your code here #
+gene_id_converter = function(genes) {
+    
+    gene_converter = function(gene) {
+        
+        if (suppressWarnings(!is.na(as.numeric(gene)))) {
+            return(conversion[conversion$Entrez == gene, 'gene_symbol'])
+        } else {
+            if (startsWith(gene, 'ENS')) {
+                return(conversion[conversion$Ensembl == gene, 'gene_symbol'])
+            } else {
+                ens = conversion[conversion$gene_symbol == gene, 'Ensembl']
+                ent = conversion[conversion$gene_symbol == gene, 'Entrez']
+                return(c(ens, ent))
+            }
+        }
+    }
+    
+    result = list()
+    for (i in 1:length(genes)) {
+        result[[i]] = gene_converter(genes[i])
+    }
+    names(result) = genes
+    return(result)
+}
 
 # Test -- this should output a list:
 #
@@ -215,6 +274,27 @@ gene_id_converter(genes = c("ENSG00000147889", 8243, "TP53"))
 # Problem: Same thing. But use lapply instead of a for-loop.
 
 # Your code here #
+gene_id_converter = function(genes) {
+    
+    gene_converter = function(gene) {
+        
+        if (suppressWarnings(!is.na(as.numeric(gene)))) {
+            return(conversion[conversion$Entrez == gene, 'gene_symbol'])
+        } else {
+            if (startsWith(gene, 'ENS')) {
+                return(conversion[conversion$Ensembl == gene, 'gene_symbol'])
+            } else {
+                ens = conversion[conversion$gene_symbol == gene, 'Ensembl']
+                ent = conversion[conversion$gene_symbol == gene, 'Entrez']
+                return(c(ens, ent))
+            }
+        }
+    }
+    
+    result = lapply(genes, gene_converter)
+    names(result) = genes
+    return(result)
+}
 
 # Test -- this should output a list:
 #

@@ -4,37 +4,37 @@
 fruit <- c('Apple', 'Orange', 'Passion fruit', 'Banana')
 # Create the "for" statement
 
-#Correct the following loops and functions to get an print output of each value in the fruit vector
+#Correct the following loops and functions to get a print output of each value in the fruit vector
 # prt 1
-for ( i in fruit) 
+for (i in fruit) {
   print(i)
 }
 
 # prt 2
-for(var in 1:length(fruit)) {
-  print(var)
+for(i in 1:length(fruit)) {
+  print(fruit[i])
 }
 
 
 # prt 3
 #skip over the value "Orange"
 
-for(var in 1:length(fruit)) {
-  if (fruit[var] __ __ ){
-    __
+for(i in 1:length(fruit)) {
+  if (fruit[i] == 'Orange') {
+    next
   }
-  print(fruit[var])
+  print(fruit[i])
 }
 
 # prt 4
 #Complete the following function that take in input X and outputs the cube of X which is equal to Y
-Cube_It <- function(___){
-  ___ <- ___
-  print(paste0("The Cube of ", ___, " is ", ___ ))
+Cube_It <- function(x){
+  y <- x ^ 3
+  print(paste0("The Cube of ", x, " is ", y))
 }
 
 # now use function on the number 42
-____(___)
+Cube_It(42)
 
 
 ### Problem Two ###
@@ -55,23 +55,27 @@ num_grades
 # Save "student_grades" as a csv file.
 
 letter_grades <- c()
-for (___ in 1:___(num_grades)) {
+for (idx in 1:length(num_grades)) {
   
   # Get the current grade in the loop
-  grade <- ____[___]
+  grade <- num_grades[idx]
   
   # Convert grade from numeric to letter
   if (grade >= 90) {
-    letter_grades[___] <- "A"
-  } else if (___) {
-    ___
-  } ___ ... # Complete the rest of this code
-  
+    letter_grades[idx] <- "A"
+  } else if (grade >= 80) {
+    letter_grades[idx] <- "B"
+  } else if (grade >= 70) {
+      letter_grades[idx] <- "C"
+  } else if (grade >= 60) {
+      letter_grades[idx] <- "D"
+  } else {
+      letter_grades[idx] <- "E"
+  }  
 }
 
-student_grades <- ___(_______) # Compile into data.frame
-write.___(___) # Save student_grades as a csv file
-
+student_grades <- data.frame(student = students, score = num_grades, grade = letter_grades) # Compile into data.frame
+write.csv(student_grades, 'student_grades.csv') # Save student_grades as a csv file
 
 ### Challenge Problem ###
 
