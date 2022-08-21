@@ -90,10 +90,6 @@ for (var in 1:length(numbers)){
 }
 
 
-
-
-
-
 ##While loops
 #This type of loop continues to repeat until a specific condition is met and the condition evaluates to FALSE 
 
@@ -209,36 +205,36 @@ Square_It(5)
 Square_It(42)
 
 # Apply functions
-#Iterates the functions over elements in a list or a vector (lapply) or 
-#over a dataframe (apply). These functions are very similar to a for loop, 
-#but can be done in 1 line of code. 
-#3 types of apply functions: apply, lapply, sapply
+# Iterates the functions over elements in a list or a vector (lapply) or 
+# over a dataframe (apply). These functions are very similar to a for loop, 
+# but can be done in 1 line of code. 
+# 3 types of apply functions: apply, lapply, sapply
 ## Apply: Lets say that we have our dataframe: 
 
 my.df2 <- data.frame(x= c(2, 5, 10, 2, 3), y= 1:5)
 
 print (my.df2)
 
-#and we want to calculate the mean of each individual row in that dataframe. 
-#Lets try it with a for loop. 
+# and we want to calculate the mean of each individual row in that dataframe. 
+# Lets try it with a for loop. 
 
 for (var in 1:nrow(my.df2)) {
   mymean= mean(as.numeric(my.df2[var,]))
   print(mymean)
 }
 
-#Lets try it with apply instead
+# Lets try it with apply instead
 
 apply(my.df2, 1,  mean)
   
-##lapply
-#lapply works on vectors or lists, and outputs the results as a list. 
+## lapply
+# lapply works on vectors or lists, and outputs the results as a list. 
 
 x <- sample(1:100, size = 10)
 y <- sample(1:100, size = 10)
 z <-  sample (1:100, size = 10)
 
-lis <- list (x, y, z)
+lis <- list(x, y, z)
 
 lis_min <- lapply(lis, min)
 
@@ -247,8 +243,8 @@ print(lis_min)
 str(lis_min)
 
 ## sapply: as opposed to lapply, sapply will try to simplify 
-#the output of lapply(). Ths will try to output a simple array 
-#rather than a list. 
+# the output of lapply(). Ths will try to output a simple array 
+# rather than a list. 
 
 x <- sample(1:100, size = 10)
 y <- sample(1:100, size = 10)
@@ -264,7 +260,7 @@ str(lis_min)
 
 
 # Which function
-#In R, the **which()** function gives you the **position** of elements 
+# In R, the **which()** function gives you the **position** of elements
 
 geneIDs=read.csv("gene_id_to_symbol.csv")
 
@@ -281,15 +277,15 @@ my_which_function <- which(mygenes$Ensemble == "ENSG00000256069")
 
 my_which_function
 
-#How can the which function be powerful? Because, for example, 
-#you can use the output of the which function to return all the values in the row of your search. 
+# How can the which function be powerful? Because, for example, 
+# you can use the output of the which function to return all the values in the row of your search. 
 
 mygenessearch <- mygenes[my_which_function,]
 
 mygenessearch
 
-#The End! 
+# The End! 
   
-  #Homework: Practice problems, and datacamp 
+# Homework: Practice problems, and datacamp 
 
 

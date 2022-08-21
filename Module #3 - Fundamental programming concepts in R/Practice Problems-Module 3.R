@@ -1,10 +1,10 @@
 ### Problem One ###
 
-#Create the vector fruit
+# Create the vector fruit
 fruit <- c('Apple', 'Orange', 'Passion fruit', 'Banana')
 # Create the "for" statement
 
-#Correct the following loops and functions to get an print output of each value in the fruit vector
+# Correct the following loops and functions to get an print output of each value in the fruit vector
 # prt 1
 for (i in fruit) {
   print(i)
