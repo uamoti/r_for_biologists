@@ -1,10 +1,10 @@
 ### Problem One ###
 
-#Create the vector fruit
+# Create the vector fruit
 fruit <- c('Apple', 'Orange', 'Passion fruit', 'Banana')
 # Create the "for" statement
 
-#Correct the following loops and functions to get a print output of each value in the fruit vector
+# Correct the following loops and functions to get a print output of each value in the fruit vector
 # prt 1
 for (i in fruit) {
   print(i)
@@ -17,7 +17,7 @@ for(i in 1:length(fruit)) {
 
 
 # prt 3
-#skip over the value "Orange"
+# skip over the value "Orange"
 
 for(i in 1:length(fruit)) {
   if (fruit[i] == 'Orange') {
@@ -27,7 +27,7 @@ for(i in 1:length(fruit)) {
 }
 
 # prt 4
-#Complete the following function that take in input X and outputs the cube of X which is equal to Y
+# Complete the following function that take in input X and outputs the cube of X which is equal to Y
 Cube_It <- function(x){
   y <- x ^ 3
   print(paste0("The Cube of ", x, " is ", y))
@@ -103,7 +103,6 @@ id2symbol
 
 # Test -- this should output "TP53"
 gene_id_converter(gene_id="ENSG00000141510")
-
 
 
 ### SUPER Challenge Problem ###

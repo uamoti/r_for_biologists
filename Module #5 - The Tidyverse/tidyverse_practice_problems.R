@@ -90,14 +90,45 @@ ggsave("my_figure.pdf")
 
 # 1. Do 6 cylinder cars have better MPG than 8 cylinder cars?
 View(mtcars)
+## Non-visual method
+mtcars %>%
+    select(cyl, mpg) %>%
+    filter(cyl == 6 | cyl == 8) %>%
+    t.test(mpg ~ cyl, data=.)
+
+## Plotting
+mtcars %>%
+    filter(cyl == 6 | cyl == 8) %>%
+    group_by(cyl) %>%
+##    summarise(avg=mean(mpg)) %>%
+    ggplot(aes(factor(cyl), avg)) +
+    geom_boxplot() +
+    stat_compare_means(comparisons=list(c('6', '8')), method='t.test')
 
 
 # 2. Is there a correlation between urban population and Murder rate?
 View(USArrests)
-
+cor(USArrests$Murder, USArrests$UrbanPop)
+## Plotting
+USArrests %>%
+    ggplot(aes(Murder, UrbanPop)) +
+    geom_point() +
+    geom_smooth(se=FALSE)
 
 # 3. Did the treatment make the plants grow more or less?
 View(PlantGrowth)
+PlantGrowth %>%
+    group_by(group) %>%
+    ggplot(aes(group, weight)) +
+    geom_boxplot() +
+    stat_compare_means(
+        comparisons=list(
+            c('ctrl', 'trt1'),
+            c('ctrl', 'trt2'),
+            c('trt1', 'trt2')
+        ),
+        method='t.test'
+    )
 
 
 # 4. Does Vitamin C supplementation improve tooth growth? Is OJ better than Vitamin C at dose of 2?
