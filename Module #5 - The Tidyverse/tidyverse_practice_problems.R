@@ -130,8 +130,15 @@ PlantGrowth %>%
         method='t.test'
     )
 
-
 # 4. Does Vitamin C supplementation improve tooth growth? Is OJ better than Vitamin C at dose of 2?
 View(ToothGrowth)
-
+ToothGrowth %>%
+    filter(dose == 2) %>%
+    group_by(supp) %>%
+    ggplot(aes(supp, len)) +
+    geom_boxplot() +
+    stat_compare_means(
+        comparisons=list(c('ctrl', 'trt1')),
+        method='t.test'
+    )
 
