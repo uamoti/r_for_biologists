@@ -1,23 +1,18 @@
 #!/usr/bin/Rscript
 
-valid_position = function(row, col) {
-    return(row %in% 1:3 & col %in% 1:3)
+valid_move = function(row, col) {
+    on_board = (row %in% 1:3 & col %in% 1:3)
+    free_pos = board[row, col] == NA
+
+    return(on_board & free_pos)
 }
 
-open_position = function(row, col) {
-    return(board[row, col] == NA)
-}
 
 get_comp_move = function() {
-    row = sample(1:3, 1)
-    col = sample(1:3, 1)
+    free_board = which(is.na(board), arr.ind=TRUE)
+    x = sample(1:nrow(free_board), 1)
 
-    while(! valid_position(row, col) & open_position(row, col)) {
-        row = sample(1:3, 1)
-        col = sample(1:3, 1)
-    }
-
-    return(row, col)
+    return(as.vector(free_board[x, ]))
 }
 
 get_user_move = function() {
