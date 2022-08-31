@@ -17,8 +17,9 @@ get_comp_move = function() {
 
 get_user_move = function() {
     cat('What row? ')
-
+    row = as.integer(readLines(con=con, n=1))
     cat('What column? ')
+    col = as.integer(readLines(con=con, n=1))
 }
 
 
